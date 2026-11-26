@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { BalanceSummary } from '../components/BalanceSummary'
 import { ExpenseTable } from '../components/ExpenseTable'
@@ -24,11 +25,26 @@ function parseCategoryFilter(value: string): CategoryFilter {
   return isCategory(value) ? value : 'All'
 }
 
+function readSuccessMessage(state: unknown): string | null {
+  if (
+    typeof state === 'object' &&
+    state !== null &&
+    'message' in state &&
+    typeof state.message === 'string'
+  ) {
+    return state.message
+  }
+
+  return null
+}
+
 export function ExpensesPage() {
   const expenses = useAppSelector(selectAllExpenses)
   const members = useAppSelector(selectAllMembers)
   const dispatch = useAppDispatch()
+  const location = useLocation()
   const [category, setCategory] = useState<CategoryFilter>('All')
+  const successMessage = readSuccessMessage(location.state)
 
   const visibleExpenses = useMemo(
     () =>
@@ -49,6 +65,12 @@ export function ExpensesPage() {
         <h1>Expenses</h1>
         <p className="subtitle">Shared costs and what everyone is owed.</p>
       </div>
+
+      {successMessage !== null && (
+        <p className="notice notice--success" role="status">
+          {successMessage}
+        </p>
+      )}
 
       <BalanceSummary />
 

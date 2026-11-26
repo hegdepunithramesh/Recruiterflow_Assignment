@@ -179,11 +179,11 @@ describe('routing', () => {
     expect(screen.getByRole('link', { name: 'Add expense' })).not.toHaveAttribute('aria-current')
   })
 
-  it('marks Add expense active on the temporary placeholder route', () => {
+  it('marks Add expense active on the Add expense route', () => {
     renderAt('/expenses/new')
 
     expect(screen.getByRole('link', { name: 'Add expense' })).toHaveAttribute('aria-current', 'page')
-    expect(screen.getByText(/add expense form arrives/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Add expense', level: 1 })).toBeInTheDocument()
   })
 
   it('shows Not Found with a link back for unknown routes', async () => {

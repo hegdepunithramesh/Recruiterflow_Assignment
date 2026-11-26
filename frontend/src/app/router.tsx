@@ -1,5 +1,6 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
+import { AddExpensePage } from '../pages/AddExpensePage'
 import { ExpensesPage } from '../pages/ExpensesPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 
@@ -14,16 +15,7 @@ export function AppShell() {
       <main id="main-content" className="shell">
         <Routes>
           <Route path="/" element={<ExpensesPage />} />
-          <Route
-            path="/expenses/new"
-            element={
-              <section className="placeholder">
-                <h1>Add expense</h1>
-                <p>The add expense form arrives in the next phase.</p>
-                <Link to="/">Back to Expenses</Link>
-              </section>
-            }
-          />
+          <Route path="/expenses/new" element={<AddExpensePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

@@ -45,7 +45,7 @@ h3 {
   color: var(--ink);
 }
 
-:where(a, button, select):focus-visible {
+:where(a, button, select, input):focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
@@ -366,6 +366,129 @@ tbody tr:last-child td {
   margin-top: 20px;
 }
 
+.expense-form {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 22px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field--wide {
+  grid-column: 1 / -1;
+}
+
+.field label,
+.field legend {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.field input,
+.field select {
+  font: inherit;
+  font-size: 14px;
+  width: 100%;
+  padding: 8px 10px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+.field input[aria-invalid='true'],
+.field select[aria-invalid='true'] {
+  border-color: var(--negative);
+}
+
+.field__error {
+  color: var(--negative);
+  font-size: 12px;
+}
+
+.field__hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.radio-row label,
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.radio-row input,
+.check input {
+  width: auto;
+}
+
+.split-panel {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--page);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.btn--primary {
+  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.notice--success {
+  margin-bottom: 20px;
+  padding: 10px 12px;
+  color: var(--positive);
+  background: rgba(47, 107, 79, 0.08);
+  border: 1px solid rgba(47, 107, 79, 0.3);
+  border-radius: 2px;
+  font-size: 13px;
+}
+
 @media (max-width: 600px) {
   .site-header__inner {
     flex-wrap: wrap;
@@ -393,5 +516,14 @@ tbody tr:last-child td {
 
   .balance-grid {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .form-grid,
+  .member-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expense-form {
+    padding: 16px;
   }
 }
