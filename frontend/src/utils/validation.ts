@@ -179,7 +179,7 @@ export function exactAllocation(values: Record<string, string>, members: readonl
   return { paise, errors, total }
 }
 
-function hasAtMostTwoDecimals(value: number): boolean {
+export function hasAtMostTwoDecimals(value: number): boolean {
   const text = String(value)
   const decimalIndex = text.indexOf('.')
 

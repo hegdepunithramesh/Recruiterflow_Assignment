@@ -103,9 +103,20 @@ function ConfirmDeleteDialog({ description, onConfirm, onCancel }: ConfirmDelete
 
 export function ExpenseTable({ expenses, members, onDelete }: ExpenseTableProps) {
   const [pendingId, setPendingId] = useState<string | null>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
 
   const sorted = [...expenses].sort((left, right) => right.date.localeCompare(left.date))
   const pendingExpense = sorted.find((expense) => expense.id === pendingId)
+
+  function openDelete(id: string) {
+    triggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    setPendingId(id)
+  }
+
+  function cancelDelete() {
+    setPendingId(null)
+    triggerRef.current?.focus()
+  }
 
   return (
     <>
@@ -138,7 +149,7 @@ export function ExpenseTable({ expenses, members, onDelete }: ExpenseTableProps)
                     type="button"
                     className="btn btn--danger"
                     aria-label={`Delete ${expense.description}`}
-                    onClick={() => setPendingId(expense.id)}
+                    onClick={() => openDelete(expense.id)}
                   >
                     Delete
                   </button>
@@ -151,7 +162,7 @@ export function ExpenseTable({ expenses, members, onDelete }: ExpenseTableProps)
       {pendingExpense !== undefined && (
         <ConfirmDeleteDialog
           description={pendingExpense.description}
-          onCancel={() => setPendingId(null)}
+          onCancel={cancelDelete}
           onConfirm={() => {
             onDelete(pendingExpense.id)
             setPendingId(null)

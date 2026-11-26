@@ -1,78 +1,55 @@
-# React + TypeScript + Vite
+# Trip Splitter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Project overview
 
-Currently, two official plugins are available:
+Trip Splitter is a browser app for recording shared trip costs and settling up. Five friends enter expenses, choose how each is split, and immediately see who gets money back and who owes. It runs entirely in the browser with no backend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 2. Live demo
 
-## React Compiler
+https://recruiterflowassignment.vercel.app/
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## 3. Tech stack
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+React 19, strict TypeScript, Redux Toolkit and React Redux, React Router, Vite, plain CSS, self-hosted JetBrains Mono (`@fontsource`), Vitest with React Testing Library and jsdom, and browser localStorage.
 
-## Expanding the ESLint configuration
+## 4. Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Track expenses with description, amount, payer, date and category.
+- Five predefined members with derived balances.
+- Equal, exact-paise and percentage splits with deterministic remainder handling.
+- Category filtering with a live total for visible expenses.
+- Deletion with an accessible confirmation dialog.
+- localStorage persistence with safe fallback to sample data.
+- Responsive, keyboard-accessible interface with large monospace typography.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 5. Getting started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Commands run from the `frontend/` directory:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+cd frontend
+npm ci
+npm run dev
+npm run typecheck
+npm run lint
+npm run test
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+The dev server prints its local URL; `npm run build` writes `dist/`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 6. Important implementation decisions
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Money is stored as integer paise and formatted with string grouping, so arithmetic never loses precision.
+- Redux Toolkit holds members and expenses; balances are derived by pure utilities, never stored in state.
+- Expenses persist under `trip-splitter-expenses` via middleware, keeping reducers pure.
 
-```
+## 7. Testing
+
+Vitest and React Testing Library cover money, splits, balances, validation, persistence, Redux and the UI. Final verified count: **89 passing tests**.
+
+## 8. Future enhancements
+
+Possible future work, not implemented: dynamic member management and multiple trips; receipt image uploads with cloud storage; OCR-based receipt extraction; authentication and shared trips; expense settlement tracking.
+
+

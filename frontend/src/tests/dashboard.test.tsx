@@ -123,10 +123,12 @@ describe('expenses dashboard', () => {
   it('dismisses the confirmation dialog with Escape and with Cancel', async () => {
     const { user, store } = renderAt('/')
 
-    await user.click(screen.getByRole('button', { name: 'Delete Old dinner' }))
+    const trigger = screen.getByRole('button', { name: 'Delete Old dinner' })
+    await user.click(trigger)
     await user.keyboard('{Escape}')
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(trigger).toHaveFocus()
     expect(store.getState().expenses).toHaveLength(3)
 
     await user.click(screen.getByRole('button', { name: 'Delete Old dinner' }))
