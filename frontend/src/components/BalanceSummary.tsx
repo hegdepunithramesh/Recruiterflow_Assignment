@@ -34,12 +34,22 @@ export function BalanceSummary() {
 
   // Derived from all expenses, never stored in Redux and never affected by the filter.
   const balances = useMemo(() => calculateBalances(expenses, members), [expenses, members])
+  const totalPaise = useMemo(
+    () => expenses.reduce((sum, expense) => sum + expense.amount, 0),
+    [expenses],
+  )
 
   return (
     <section className="balances" aria-labelledby="balances-heading">
       <div className="section-head">
-        <h2 id="balances-heading">Balances</h2>
-        <p className="section-note">Across the whole trip</p>
+        <div>
+          <h2 id="balances-heading">Balances</h2>
+          <p className="section-note">Across the whole trip</p>
+        </div>
+        <p className="overview-total">
+          <span className="overview-total__label">Total spent</span>
+          <strong>{formatPaise(totalPaise)}</strong>
+        </p>
       </div>
       <ul className="balance-grid">
         {members.map((member) => {

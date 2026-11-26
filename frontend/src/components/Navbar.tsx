@@ -1,7 +1,8 @@
 import { Link, NavLink } from 'react-router-dom'
 
-function linkClass(isActive: boolean): string {
-  return isActive ? 'nav__link nav__link--active' : 'nav__link'
+function linkClass(isActive: boolean, isAdd = false): string {
+  const classes = isAdd ? 'nav__link nav__link--add' : 'nav__link'
+  return isActive ? `${classes} nav__link--active` : classes
 }
 
 export function Navbar() {
@@ -9,7 +10,7 @@ export function Navbar() {
     <header className="site-header">
       <div className="site-header__inner">
         <Link to="/" className="brand">
-          Trip Splitter
+          TRIP / LEDGER
         </Link>
         <nav aria-label="Primary">
           <ul className="nav__list">
@@ -19,7 +20,7 @@ export function Navbar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/expenses/new" className={({ isActive }) => linkClass(isActive)}>
+              <NavLink to="/expenses/new" className={({ isActive }) => linkClass(isActive, true)}>
                 Add expense
               </NavLink>
             </li>

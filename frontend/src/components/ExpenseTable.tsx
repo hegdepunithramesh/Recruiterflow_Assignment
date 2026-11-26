@@ -127,9 +127,9 @@ export function ExpenseTable({ expenses, members, onDelete }: ExpenseTableProps)
           <tbody>
             {sorted.map((expense) => (
               <tr key={expense.id}>
-                <td>{expense.date}</td>
+                <td className="date-cell">{expense.date}</td>
                 <td>{expense.description}</td>
-                <td>{expense.category}</td>
+                <td className="category">{expense.category}</td>
                 <td>{payerName(expense.paidBy, members)}</td>
                 <td className="amount">{formatPaise(expense.amount)}</td>
                 <td>{splitLabel(expense.split)}</td>

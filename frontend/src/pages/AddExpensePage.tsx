@@ -209,15 +209,19 @@ export function AddExpensePage() {
   return (
     <>
       <div className="page-header">
-        <p className="eyebrow">Goa trip · 2026</p>
+        <p className="eyebrow">New entry</p>
         <h1>Add expense</h1>
         <p className="subtitle">Record a shared cost and choose how to split it.</p>
       </div>
 
       <form className="expense-form" onSubmit={handleSubmit} noValidate>
-        <div className="form-grid">
-          <div className="field">
-            <label htmlFor="description">Description</label>
+        <section className="form-section" aria-labelledby="details-heading">
+          <h2 id="details-heading" className="form-section__title">
+            Expense details
+          </h2>
+          <div className="form-grid">
+            <div className="field">
+              <label htmlFor="description">Description</label>
             <input
               id="description"
               type="text"
@@ -229,7 +233,7 @@ export function AddExpensePage() {
             <FieldError id="description-error" message={errors.description} />
           </div>
 
-          <div className="field">
+          <div className="field field--amount">
             <label htmlFor="amount">Amount</label>
             <input
               id="amount"
@@ -242,7 +246,14 @@ export function AddExpensePage() {
             />
             <FieldError id="amount-error" message={errors.amount} />
           </div>
+          </div>
+        </section>
 
+        <section className="form-section" aria-labelledby="payment-heading">
+          <h2 id="payment-heading" className="form-section__title">
+            Payment details
+          </h2>
+          <div className="form-grid">
           <div className="field">
             <label htmlFor="paidBy">Paid by</label>
             <select
@@ -293,11 +304,23 @@ export function AddExpensePage() {
             </select>
             <FieldError id="category-error" message={errors.category} />
           </div>
+          </div>
+        </section>
 
+        <section className="form-section" aria-labelledby="split-heading">
+          <h2 id="split-heading" className="form-section__title">
+            Split configuration
+          </h2>
           <fieldset className="field field--wide">
             <legend>Split type</legend>
-            <div className="radio-row">
-              <label>
+            <div className="split-options">
+              <label
+                className={
+                  values.splitType === 'equal'
+                    ? 'split-option split-option--active'
+                    : 'split-option'
+                }
+              >
                 <input
                   type="radio"
                   name="splitType"
@@ -307,7 +330,13 @@ export function AddExpensePage() {
                 />
                 Equal
               </label>
-              <label>
+              <label
+                className={
+                  values.splitType === 'exact'
+                    ? 'split-option split-option--active'
+                    : 'split-option'
+                }
+              >
                 <input
                   type="radio"
                   name="splitType"
@@ -317,7 +346,13 @@ export function AddExpensePage() {
                 />
                 Exact amounts
               </label>
-              <label>
+              <label
+                className={
+                  values.splitType === 'percent'
+                    ? 'split-option split-option--active'
+                    : 'split-option'
+                }
+              >
                 <input
                   type="radio"
                   name="splitType"
@@ -329,9 +364,8 @@ export function AddExpensePage() {
               </label>
             </div>
           </fieldset>
-        </div>
 
-        <div className="split-panel">
+          <div className="split-panel">
           {values.splitType === 'equal' && (
             <fieldset className="field">
               <legend>Members</legend>
@@ -404,11 +438,12 @@ export function AddExpensePage() {
             </div>
           )}
 
-          <p className="field__hint" aria-live="polite">
+          <p className="field__hint split-status" aria-live="polite">
             {splitHint()}
           </p>
           <FieldError id="split-error" message={errors.split} />
-        </div>
+          </div>
+        </section>
 
         <div className="form-actions">
           <button type="submit" className="btn btn--primary">

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { BalanceSummary } from '../components/BalanceSummary'
 import { ExpenseTable } from '../components/ExpenseTable'
@@ -60,10 +60,15 @@ export function ExpensesPage() {
 
   return (
     <>
-      <div className="page-header">
-        <p className="eyebrow">Goa trip · 2026</p>
-        <h1>Expenses</h1>
-        <p className="subtitle">Shared costs and what everyone is owed.</p>
+      <div className="page-header page-header--dashboard">
+        <div>
+          <p className="eyebrow">Expense record</p>
+          <h1>Expenses</h1>
+          <p className="subtitle">Shared costs and what everyone is owed.</p>
+        </div>
+        <Link to="/expenses/new" className="btn btn--primary" aria-label="Add a new expense">
+          Add Expense
+        </Link>
       </div>
 
       {successMessage !== null && (
@@ -81,6 +86,7 @@ export function ExpensesPage() {
             <label htmlFor="category-filter">Category</label>
             <select
               id="category-filter"
+              className={category === 'All' ? 'category-filter' : 'category-filter category-filter--active'}
               value={category}
               onChange={(event) => setCategory(parseCategoryFilter(event.target.value))}
             >
@@ -99,11 +105,14 @@ export function ExpensesPage() {
         </p>
 
         {visibleExpenses.length === 0 ? (
-          <p className="empty-state">
-            {expenses.length === 0
-              ? 'No expenses yet. Add an expense to start tracking the trip.'
-              : `No expenses in ${category}.`}
-          </p>
+          <div className="empty-state">
+            <p>
+              {expenses.length === 0
+                ? 'No expenses yet. Add an expense to start tracking the trip.'
+                : `No expenses in ${category}.`}
+            </p>
+            {expenses.length === 0 && <Link to="/expenses/new">Add your first expense</Link>}
+          </div>
         ) : (
           <ExpenseTable
             expenses={visibleExpenses}
